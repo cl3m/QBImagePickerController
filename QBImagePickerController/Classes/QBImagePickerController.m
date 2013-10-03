@@ -284,6 +284,10 @@
     assetCollectionViewController.limitsMaximumNumberOfSelection = self.limitsMaximumNumberOfSelection;
     assetCollectionViewController.minimumNumberOfSelection = self.minimumNumberOfSelection;
     assetCollectionViewController.maximumNumberOfSelection = self.maximumNumberOfSelection;
+
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        assetCollectionViewController.automaticallyAdjustsScrollViewInsets = NO;
+    }
     
     [self.navigationController pushViewController:assetCollectionViewController animated:YES];
 }
