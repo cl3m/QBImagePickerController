@@ -27,9 +27,11 @@
 @property (nonatomic, assign) CGSize imageSize;
 @property (nonatomic, assign) QBImagePickerFilterType filterType;
 @property (nonatomic, assign) BOOL showsCancelButton;
+@property (nonatomic, assign) BOOL showsDoneButton;
 @property (nonatomic, assign) BOOL fullScreenLayoutEnabled;
 @property (nonatomic, assign) BOOL showsHeaderButton;
 @property (nonatomic, assign) BOOL showsFooterDescription;
+@property (nonatomic, assign) BOOL reloadWhenAppearing;
 
 @property (nonatomic, assign) BOOL allowsMultipleSelection;
 @property (nonatomic, assign) BOOL limitsMinimumNumberOfSelection;

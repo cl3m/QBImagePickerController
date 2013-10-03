@@ -37,6 +37,8 @@
     self.assets = [NSMutableArray array];
     self.selectedAssets = [NSMutableOrderedSet orderedSet];
     
+    self.showsDoneButton = YES;
+    self.reloadWhenAppearing = YES;
     self.imageSize = CGSizeMake(75, 75);
     
     // Table View
@@ -56,7 +58,9 @@
     [super viewWillAppear:animated];
     
     // Reload
-    [self reloadData];
+    if (self.reloadWhenAppearing) {
+        [self reloadData];
+    }
     
     if (self.fullScreenLayoutEnabled) {
         // Set bar styles
@@ -98,12 +102,20 @@
     [self updateRightBarButtonItem];
 }
 
+- (void)setShowsDoneButton:(BOOL)showsDoneButton
+{
+    _showsDoneButton = showsDoneButton;
+    
+    [self updateRightBarButtonItem];
+}
+
 - (void)setAllowsMultipleSelection:(BOOL)allowsMultipleSelection
 {
     _allowsMultipleSelection = allowsMultipleSelection;
     
     [self updateRightBarButtonItem];
 }
+
 
 
 #pragma mark - Instance Methods
@@ -163,7 +175,7 @@
 
 - (void)updateRightBarButtonItem
 {
-    if (self.allowsMultipleSelection) {
+    if (self.allowsMultipleSelection && self.showsDoneButton) {
         // Set done button
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
         doneButton.enabled = NO;
@@ -176,7 +188,8 @@
         
         [self.navigationItem setRightBarButtonItem:cancelButton animated:NO];
     } else {
-        [self.navigationItem setRightBarButtonItem:nil animated:NO];
+        //dont do anything
+        //[self.navigationItem setRightBarButtonItem:nil animated:NO];
     }
 }
 
