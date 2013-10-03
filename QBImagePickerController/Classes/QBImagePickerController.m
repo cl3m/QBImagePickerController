@@ -10,9 +10,6 @@
 
 #import "QBImagePickerController.h"
 
-// Views
-#import "QBImagePickerGroupCell.h"
-
 // Controllers
 #import "QBAssetCollectionViewController.h"
 
@@ -227,18 +224,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"Cell";
-    QBImagePickerGroupCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil) {
-        cell = [[QBImagePickerGroupCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     ALAssetsGroup *assetsGroup = [self.assetsGroups objectAtIndex:indexPath.row];
     
     cell.imageView.image = [UIImage imageWithCGImage:assetsGroup.posterImage];
-    cell.titleLabel.text = [NSString stringWithFormat:@"%@", [assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
-    cell.countLabel.text = [NSString stringWithFormat:@"(%d)", assetsGroup.numberOfAssets];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"(%d)", assetsGroup.numberOfAssets];
     
     return cell;
 }
