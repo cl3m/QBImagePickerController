@@ -23,6 +23,7 @@
 
 @property (nonatomic, weak) id<QBAssetCollectionViewControllerDelegate> delegate;
 @property (nonatomic, strong) ALAssetsGroup *assetsGroup;
+@property (nonatomic, strong) NSMutableArray *assets; //filtered assets
 
 @property (nonatomic, assign) CGSize imageSize;
 @property (nonatomic, assign) QBImagePickerFilterType filterType;
@@ -39,6 +40,11 @@
 @property (nonatomic, assign) NSUInteger minimumNumberOfSelection;
 @property (nonatomic, assign) NSUInteger maximumNumberOfSelection;
 @property (nonatomic, strong) UITableView *tableView;
+
+
+@property (nonatomic, strong) NSNumber *assetMaxDuration;
+@property (nonatomic, strong) NSDate *assetSinceDate;
+@property (nonatomic, strong) NSDate *assetTillDate;
 
 - (void)reloadData;
 

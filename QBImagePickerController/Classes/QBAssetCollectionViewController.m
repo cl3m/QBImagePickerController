@@ -16,7 +16,6 @@
 
 @interface QBAssetCollectionViewController ()
 
-@property (nonatomic, strong) NSMutableArray *assets;
 @property (nonatomic, strong) NSMutableOrderedSet *selectedAssets;
 
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
@@ -57,11 +56,6 @@
 {
     [super viewWillAppear:animated];
     
-    // Reload
-    if (self.reloadWhenAppearing) {
-        [self reloadData];
-    }
-    
     if (self.fullScreenLayoutEnabled) {
         // Set bar styles
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
@@ -78,12 +72,10 @@
         
         [self setWantsFullScreenLayout:YES];
     }
-    
-    // Scroll to bottom
-    NSInteger numberOfRows = [self.tableView numberOfRowsInSection:2];
-    if (numberOfRows > 0) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:2];
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
+    // Reload
+    if (self.reloadWhenAppearing) {
+        [self reloadData];
     }
 }
 
@@ -126,8 +118,13 @@
     [self.assets removeAllObjects];
     [self.assetsGroup enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
         if (result) {
+            BOOL addAsset = YES;
             NSNumber *duration = [result valueForProperty:ALAssetPropertyDuration];
-            if (![duration isKindOfClass:[NSNumber class]] || duration.doubleValue <= 30.0f) {
+            addAsset = addAsset  && (self.assetMaxDuration == nil || ([duration isKindOfClass:[NSNumber class]] && duration <= self.assetMaxDuration));
+            NSDate *date = [result valueForProperty:ALAssetPropertyDate];
+            addAsset = addAsset  && (self.assetSinceDate == nil || ([date isKindOfClass:[NSDate class]] && [date compare:self.assetSinceDate] == NSOrderedDescending));
+            addAsset = addAsset  && (self.assetTillDate == nil || ([date isKindOfClass:[NSDate class]] && [date compare:self.assetTillDate] == NSOrderedAscending));
+            if (addAsset) {
                 [self.assets addObject:result];
             }
         }
@@ -171,6 +168,13 @@
         
         self.tableView.tableFooterView = footerView;
     }
+    
+    // Scroll to bottom
+    /*NSInteger numberOfRows = [self.tableView numberOfRowsInSection:2];
+    if (numberOfRows > 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:2];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }*/
 }
 
 - (void)updateRightBarButtonItem
