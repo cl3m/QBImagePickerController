@@ -19,7 +19,6 @@
 @property (nonatomic, strong) NSMutableArray *assets;
 @property (nonatomic, strong) NSMutableOrderedSet *selectedAssets;
 
-@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
 
 - (void)reloadData;
@@ -32,30 +31,24 @@
 
 @implementation QBAssetCollectionViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+-(void)viewDidLoad {
+    /* Initialization */
+    self.assets = [NSMutableArray array];
+    self.selectedAssets = [NSMutableOrderedSet orderedSet];
     
-    if (self) {
-        /* Initialization */
-        self.assets = [NSMutableArray array];
-        self.selectedAssets = [NSMutableOrderedSet orderedSet];
-        
-        self.imageSize = CGSizeMake(75, 75);
-        
-        // Table View
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.dataSource = self;
-        tableView.delegate = self;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView.allowsSelection = YES;
-        tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        
-        [self.view addSubview:tableView];
-        self.tableView = tableView;
-    }
+    self.imageSize = CGSizeMake(75, 75);
     
-    return self;
+    // Table View
+    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.allowsSelection = YES;
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    [self.view addSubview:tableView];
+    self.tableView = tableView;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -84,8 +77,10 @@
     
     // Scroll to bottom
     NSInteger numberOfRows = [self.tableView numberOfRowsInSection:2];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:2];
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    if (numberOfRows > 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:2];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
