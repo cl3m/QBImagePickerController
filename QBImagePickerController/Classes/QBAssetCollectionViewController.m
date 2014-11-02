@@ -16,8 +16,6 @@
 
 @interface QBAssetCollectionViewController ()
 
-@property (nonatomic, strong) NSMutableOrderedSet *selectedAssets;
-
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
 
 - (void)reloadData;
@@ -41,15 +39,17 @@
     self.imageSize = CGSizeMake(75, 75);
     
     // Table View
-    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.allowsSelection = YES;
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
-    [self.view addSubview:tableView];
-    self.tableView = tableView;
+    if (self.tableView == nil) {
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        
+        [self.view addSubview:tableView];
+        self.tableView = tableView;
+    }
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.allowsSelection = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated

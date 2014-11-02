@@ -53,7 +53,7 @@
         UIImageView *overlayImageView = [[UIImageView alloc] initWithFrame:self.bounds];
         overlayImageView.contentMode = UIViewContentModeScaleAspectFill;
         overlayImageView.clipsToBounds = YES;
-        overlayImageView.image = [UIImage imageNamed:@"QBImagePickerController.bundle/overlay.png"];
+        overlayImageView.image = [UIImage imageNamed:@"overlay.png"];
         overlayImageView.hidden = YES;
         overlayImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         

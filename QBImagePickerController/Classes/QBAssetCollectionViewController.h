@@ -46,6 +46,7 @@
 @property (nonatomic, strong) NSDate *assetSinceDate;
 @property (nonatomic, strong) NSDate *assetTillDate;
 
+@property (nonatomic, strong) NSMutableOrderedSet *selectedAssets;
 - (void)reloadData;
 
 @end
